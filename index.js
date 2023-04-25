@@ -40,29 +40,19 @@ mongoose
     console.log(error);
   });
 
-app.get("/api/test", (req, res) => {
-  res.send("Hello, World!");
-});
-
-const users = {};
+const connectedUsers = {};
 
 io.on("connection", (socket) => {
-  // Store user's socket ID in the object
-  // users[socket.id] = { username: "Anonymous" };
-  // console.log(`User connected: ${socket.id}`);
-  // // Emit the updated users object to all clients
-  // io.emit("users", users);
-  // socket.on("disconnect", () => {
-  //   // Remove user's socket ID from the object
-  //   delete users[socket.id];
-  //   console.log(`User disconnected: ${socket.id}`);
-  //   // Emit the updated users object to all clients
-  //   io.emit("users", users);
-  // });
-  console.log("A user connected");
+  // add the user to the connectedUsers object
+  socket.on("login", (userId) => {
+    connectedUsers[userId] = socket.id;
+    console.log(`User ${userId} connected`);
+  });
 
-  socket.on("disconnect", () => {
-    console.log("A user disconnected");
+  // remove the user from the connectedUsers object
+  socket.on("logout", (userId) => {
+    delete connectedUsers[userId];
+    console.log(`User ${userId} disconnected`);
   });
 });
 
