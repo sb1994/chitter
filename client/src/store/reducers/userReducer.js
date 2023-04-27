@@ -1,16 +1,16 @@
 const initialState = {
   user: null,
-  buddies: [],
   loggedIn: false,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "LOGIN_SUCCESS":
+    case "LOGIN_USER":
+      console.log(action.payload);
       return {
         ...state,
-        user: action.payload.user,
-        buddies: action.payload.buddies,
+        user: action.payload,
+        // buddies: action.payload.buddies,
         loggedIn: true,
       };
     case "LOGOUT_SUCCESS":
